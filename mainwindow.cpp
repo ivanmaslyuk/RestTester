@@ -3,6 +3,7 @@
 #include "QDebug"
 #include <QtNetwork/QNetworkRequest>
 #include <QUrl>
+#include <QJsonDocument>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -37,7 +38,15 @@ void MainWindow::makeRequestButtonPressed()
 
 void MainWindow::requestFinished(QNetworkReply *reply)
 {
-    ui->responseText->setPlainText(reply->readAll());
+    QString text = reply->readAll();
+
+    QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString().split(';')[0];
+    if (contentType == "application/json") {
+        QJsonDocument doc = QJsonDocument::fromJson(text.toUtf8());
+        text = doc.toJson(QJsonDocument::Indented);
+    }
+
+    ui->responseText->setPlainText(text);
 }
 
 void MainWindow::paramsChanged(QString &newUrlencoded)
