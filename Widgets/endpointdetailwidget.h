@@ -49,6 +49,7 @@ private:
     QNetworkAccessManager *networkAccessManager;
 
     void makeRequest();
+    void setupMethodComboBox();
 
 private slots:
     void makeRequestButtonPressed();

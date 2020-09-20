@@ -1,6 +1,7 @@
 #include "endpointdetailwidget.h"
 #include "ui_endpointdetailwidget.h"
 #include <QJsonDocument>
+#include <QStyledItemDelegate>
 
 
 EndpointDetailWidget::EndpointDetailWidget(QWidget *parent) :
@@ -17,6 +18,8 @@ EndpointDetailWidget::EndpointDetailWidget(QWidget *parent) :
     connect(ui->paramsTable, &ParamsTable::urlencodedChanged, this, &EndpointDetailWidget::paramsChanged);
     connect(ui->urlInput, &QLineEdit::textEdited, this, &EndpointDetailWidget::urlEdited);
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &EndpointDetailWidget::tabChanged);
+
+    setupMethodComboBox();
 }
 
 EndpointDetailWidget::~EndpointDetailWidget()
@@ -31,9 +34,13 @@ void EndpointDetailWidget::setRequestData(RequestData data)
     ui->headersTable->setData(data.headers);
     ui->requestDataWidget->setParams(data.dataParams);
     ui->requestDataWidget->setRawData(data.rawData);
-    // data.method
     ui->urlInput->setText(data.url);
     ui->requestDataWidget->setContentType(data.contentType);
+
+    int methodIndex = ui->methodComboBox->findData(data.method);
+    if (methodIndex != -1) {
+        ui->methodComboBox->setCurrentIndex(methodIndex);
+    }
 }
 
 void EndpointDetailWidget::makeRequest()
@@ -44,7 +51,8 @@ void EndpointDetailWidget::makeRequest()
     auto request = QNetworkRequest(QUrl(ui->urlInput->text()));
     request.setHeader(QNetworkRequest::UserAgentHeader, "RestTester/0.1");
 
-    if (true) { // TODO: only if not GET or OPTIONS
+    QString method = ui->methodComboBox->currentData().toString();
+    if (method != "GET" && method != "OPTIONS" && method != "HEAD") {
         request.setHeader(QNetworkRequest::ContentTypeHeader, ui->requestDataWidget->contentType());
     }
 
@@ -54,7 +62,21 @@ void EndpointDetailWidget::makeRequest()
     }
 
     QByteArray data = ui->requestDataWidget->data();
-    this->networkAccessManager->post(request, data);
+    this->networkAccessManager->sendCustomRequest(request, method.toUtf8(), data);
+}
+
+void EndpointDetailWidget::setupMethodComboBox()
+{
+    QStyledItemDelegate* itemDelegate = new QStyledItemDelegate();
+    ui->methodComboBox->setItemDelegate(itemDelegate);
+
+    ui->methodComboBox->addItem("GET", "GET");
+    ui->methodComboBox->addItem("POST", "POST");
+    ui->methodComboBox->addItem("PUT", "PUT");
+    ui->methodComboBox->addItem("PATCH", "PATCH");
+    ui->methodComboBox->addItem("DELETE", "DELETE");
+    ui->methodComboBox->addItem("HEAD", "HEAD");
+    ui->methodComboBox->addItem("OPTIONS", "OPTIONS");
 }
 
 void EndpointDetailWidget::makeRequestButtonPressed()
