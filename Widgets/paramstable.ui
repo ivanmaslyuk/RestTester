@@ -16,12 +16,21 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
+  <property name="showGrid">
+   <bool>true</bool>
+  </property>
   <property name="rowCount">
    <number>2</number>
   </property>
   <property name="columnCount">
    <number>2</number>
   </property>
+  <attribute name="horizontalHeaderVisible">
+   <bool>false</bool>
+  </attribute>
+  <attribute name="verticalHeaderVisible">
+   <bool>false</bool>
+  </attribute>
   <row/>
   <row/>
   <column/>

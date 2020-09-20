@@ -12,19 +12,8 @@ ParamsTable::ParamsTable(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // TODO: ПРИНИМАТЬ this.data ЗДЕСЬ
-
-    this->horizontalHeader()->setDefaultAlignment(Qt::AlignVCenter);
-    this->horizontalHeader()->setStyleSheet("::section{padding-left: 19px; border: none; background-color: transparent; color: white; font-size: 10pt; font-weight: bold; height: 30px}");
-
     this->setRowCount(0);
     this->setColumnCount(3);
-
-    QStringList columnTitles;
-    columnTitles << "" << "Key" << "Value" << "Value";
-    this->setHorizontalHeaderLabels(columnTitles);
-
-    this->setRowHeight(0, 30);
 
     this->horizontalHeader()->setMinimumSectionSize(28);
     this->setColumnWidth(0, 28);
@@ -32,10 +21,9 @@ ParamsTable::ParamsTable(QWidget *parent) :
     this->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Fixed);
     this->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Interactive);
     this->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+    this->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
 
     this->appendRow();
-
-    this->setSizeAdjustPolicy(QAbstractScrollArea::SizeAdjustPolicy::AdjustToContents);
 }
 
 ParamsTable::~ParamsTable()
@@ -45,56 +33,73 @@ ParamsTable::~ParamsTable()
 
 void ParamsTable::setUrlencoded(QString &urlencoded)
 {
+    QList<Param> newData;
     QStringList params = urlencoded.split('&');
-    this->data.clear();
-    this->setRowCount(0);
-    // TODO: memory leak of previous input widgets???
-    for (auto param = params.begin(); param != params.end(); ++param)
-    {
-        if (param->isEmpty()) continue;
 
-        auto keyAndValue = param->split('=');
+    for (auto param: params)
+    {
+        if (param.isEmpty()) continue;
+
+        auto keyAndValue = param.split('=');
         keyAndValue.append("");
 
         QString key = QUrl::fromPercentEncoding(keyAndValue[0].toUtf8());
         QString value = QUrl::fromPercentEncoding(keyAndValue[1].toUtf8());
+        newData.append(Param(key, value));
+    }
 
-        appendRow(key, value);
+    newData.append(getDisabledParams());
+    setData(newData);
+}
+
+void ParamsTable::setData(QList<Param> newData)
+{
+    this->data.clear();
+    setRowCount(0);
+    for (auto param: newData) {
+        appendRow(param.key, param.value, param.enabled);
     }
 
     appendRow();
 }
 
-void ParamsTable::appendRow(QString key, QString value)
+void ParamsTable::appendRow(QString key, QString value, bool enabled)
 {
     auto insertAt = this->rowCount();
     this->insertRow(insertAt);
 
     auto checkBox = new QCheckBox(this);
-    checkBox->setCheckState(Qt::Checked);
+    checkBox->setCheckState(enabled ? Qt::Checked : Qt::Unchecked);
     checkBox->setVisible(false);
-    checkBox->setStyleSheet("QCheckBox {border-top: 1px solid #777; padding: 9px 8px} QCheckBox::indicator {border-radius: 5px}");
+    checkBox->setStyleSheet("QCheckBox {padding: 9px 8px}");
     this->setCellWidget(insertAt, 0, checkBox);
 
     auto keyInput = new QLineEdit(this);
     keyInput->setPlaceholderText("Enter key");
-    keyInput->setStyleSheet("color: white; padding-left: 16px; border-top: 1px solid #777; font-size: 10pt");
+    keyInput->setProperty("cssClass", "keyInput");
     this->setCellWidget(insertAt, 1, keyInput);
     keyInput->setText(key);
 
     auto valueInput = new QLineEdit(this);
     valueInput->setPlaceholderText("Enter value");
-    valueInput->setStyleSheet("color: white; padding-left: 16px; border-top: 1px solid #777; font-size: 10pt");
     this->setCellWidget(insertAt, 2, valueInput);
     valueInput->setText(value);
 
+    if (enabled) {
+        keyInput->setStyleSheet("color: white; padding-left: 12px; font-size: 12px");
+        valueInput->setStyleSheet("color: white; padding-left: 12px; font-size: 12px");
+    } else {
+        keyInput->setStyleSheet("color: rgba(255, 255, 255, 0.5); padding-left: 12px; font-size: 12px");
+        valueInput->setStyleSheet("color: rgba(255, 255, 255, 0.5); padding-left: 12px; font-size: 12px");
+    }
+
     this->setRowHeight(insertAt, 30);
 
-    this->data.append(Param(key, value, true));
+    this->data.append(Param(key, value, enabled));
 
-    connect(keyInput, &QLineEdit::textEdited, this, [=](QString newValue){this->keyEdited(insertAt, newValue);});
-    connect(valueInput, &QLineEdit::textEdited, this, [=](QString newValue){this->valueEdited(insertAt, newValue);});
-    connect(checkBox, &QCheckBox::stateChanged, this, [=](int newState){this->paramCheckStateChanged(insertAt, newState);});
+    connect(checkBox, &QCheckBox::stateChanged, [=](int newState){paramCheckStateChanged(insertAt, newState);});
+    connect(keyInput, &QLineEdit::textEdited, [=](QString newValue){keyEdited(insertAt, newValue);});
+    connect(valueInput, &QLineEdit::textEdited, [=](QString newValue){valueEdited(insertAt, newValue);});
 }
 
 void ParamsTable::keyEdited(int row, QString &newKey)
@@ -123,12 +128,12 @@ void ParamsTable::paramCheckStateChanged(int row, int newCheckState)
     auto valueInput = this->cellWidget(row, 2);
 
     if (newCheckState == Qt::Checked) {
-        keyInput->setStyleSheet("color: white; padding-left: 16px; border-top: 1px solid #777; font-size: 10pt");
-        valueInput->setStyleSheet("color: white; padding-left: 16px; border-top: 1px solid #777; font-size: 10pt");
+        keyInput->setStyleSheet("color: white; padding-left: 12px; font-size: 12px");
+        valueInput->setStyleSheet("color: white; padding-left: 12px; font-size: 12px");
         this->data[row].enabled = true;
     } else {
-        keyInput->setStyleSheet("color: rgba(255, 255, 255, 0.5); padding-left: 16px; border-top: 1px solid #777; font-size: 10pt");
-        valueInput->setStyleSheet("color: rgba(255, 255, 255, 0.5); padding-left: 16px; border-top: 1px solid #777; font-size: 10pt");
+        keyInput->setStyleSheet("color: rgba(255, 255, 255, 0.5); padding-left: 12px; font-size: 12px");
+        valueInput->setStyleSheet("color: rgba(255, 255, 255, 0.5); padding-left: 12px; font-size: 12px");
         this->data[row].enabled = false;
     }
 
@@ -139,14 +144,15 @@ void ParamsTable::paramCheckStateChanged(int row, int newCheckState)
 void ParamsTable::sendNewUrlencodedData()
 {
     QString urlencoded;
-    for (auto i = this->data.begin(); i != this->data.end() - 1; ++i)
+    for (auto param: this->data)
     {
-        if (i->key.isEmpty() && i->value.isEmpty()) continue;
+        if (param.key.isEmpty() && param.value.isEmpty()) continue;
+        if (!param.enabled) continue;
 
         if (!urlencoded.isEmpty()) {
             urlencoded += "&";
         }
-        urlencoded += QUrl::toPercentEncoding(i->key) + "=" + QUrl::toPercentEncoding(i->value);
+        urlencoded += QUrl::toPercentEncoding(param.key) + "=" + QUrl::toPercentEncoding(param.value);
     }
 
     emit this->urlencodedChanged(urlencoded);
@@ -156,10 +162,25 @@ void ParamsTable::sendNewHeaders()
 {
     QMap<QString, QString> headers;
 
-    for (auto i = this->data.begin(); i != this->data.end() - 1; ++i)
+    for (auto param: this->data)
     {
-        headers[i->key] = i->value;
+        if (!param.enabled) continue;
+
+        headers[param.key] = param.value;
     }
 
     emit this->headersChanged(headers);
+}
+
+QList<Param> ParamsTable::getDisabledParams()
+{
+    QList<Param> result;
+
+    for (auto param: this->data) {
+        if (!param.enabled) {
+            result.append(param);
+        }
+    }
+
+    return result;
 }

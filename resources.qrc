@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>fonts/Roboto-Regular.ttf</file>
         <file>fonts/Roboto-Bold.ttf</file>
+        <file>styles/global.css</file>
     </qresource>
 </RCC>
