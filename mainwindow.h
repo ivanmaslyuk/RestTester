@@ -19,14 +19,5 @@ public:
 
 private:
     Ui::MainWindow *ui;
-//    QNetworkAccessManager *networkAccessManager;
-
-//    void makeRequest();
-
-//private slots:
-//    void makeRequestButtonPressed();
-//    void requestFinished(QNetworkReply *reply);
-//    void paramsChanged(QString &newUrlencoded);
-//    void urlEdited(const QString &newUrl);
 };
 #endif // MAINWINDOW_H

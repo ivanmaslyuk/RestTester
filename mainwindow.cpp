@@ -7,77 +7,39 @@
 #include <QDomDocument>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
-#include <Widgets/paramstable.h>
+#include "Widgets/paramstable.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-//    setWindowFlag(Qt::FramelessWindowHint);
     ui->setupUi(this);
-
-//    this->networkAccessManager = new QNetworkAccessManager(this);
-//    connect(this->networkAccessManager, &QNetworkAccessManager::finished, this, &MainWindow::requestFinished);
-
     ui->titleBar->hide();
 
-//    connect(ui->makeRequestButton, &QPushButton::clicked, this, &MainWindow::makeRequestButtonPressed);
-//    connect(ui->urlInput, &QLineEdit::returnPressed, this, &MainWindow::makeRequestButtonPressed);
-//    connect(ui->paramsTable, &ParamsTable::urlencodedChanged, this, &MainWindow::paramsChanged);
-//    connect(ui->urlInput, &QLineEdit::textEdited, this, &MainWindow::urlEdited);
-
-    // TODO: delete later
-//    QList<Param> endpointData;
-//    endpointData << Param("key1", "value1") << Param("key2", "value2", false) << Param("key3", "value3");
-//    ui->paramsTable->setData(endpointData);
+    // Example request
+    QString url = "http://postman-echo.com/post?qenabled=qvalue1";
+    QString method = "POST";
+    QString displayName = "Postman Echo";
+    QList<Param> queryParams;
+    queryParams << Param("qenabled", "qvalue1") << Param("qdisabled", "q", false);
+    QList<Param> dataParams;
+    dataParams << Param("denabled", "dvalue1") << Param("ddisabled", "d", false);
+    QList<Param> headers;
+    headers << Param("henabled", "hvalue1") << Param("hdisabled", "h", false);
+    QString rawData = "{\"key\": 482938473}";
+    QString contentType = "application/json";
+    ui->endpoint->setRequestData(RequestData(
+                                     url,
+                                     method,
+                                     displayName,
+                                     queryParams,
+                                     dataParams,
+                                     headers,
+                                     rawData,
+                                     contentType));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-
-//void MainWindow::makeRequest()
-//{
-//    ui->makeRequestButton->setDisabled(true);
-//    ui->responseText->clear();
-//    this->networkAccessManager->get(QNetworkRequest(QUrl(ui->urlInput->text())));
-//}
-
-//void MainWindow::makeRequestButtonPressed()
-//{
-//    this->makeRequest();
-//}
-
-//void MainWindow::requestFinished(QNetworkReply *reply)
-//{
-//    ui->makeRequestButton->setDisabled(false);
-//    QString text = reply->readAll();
-
-//    QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString().split(';')[0];
-//    if (contentType == "application/json") {
-//        QJsonDocument doc = QJsonDocument::fromJson(text.toUtf8());
-//        text = doc.toJson(QJsonDocument::Indented);
-//    }
-
-//    ui->responseText->setPlainText(text);
-//}
-
-//void MainWindow::paramsChanged(QString &newUrlencoded)
-//{
-//    auto currentUrl = ui->urlInput->text().split('?')[0];
-//    if (newUrlencoded.isEmpty()) {
-//        ui->urlInput->setText(currentUrl);
-//    } else{
-//        ui->urlInput->setText(currentUrl + "?" + newUrlencoded);
-//    }
-//}
-
-//void MainWindow::urlEdited(const QString &newUrl)
-//{
-//    auto urlParts = newUrl.split('?');
-//    if (urlParts.length() == 1)
-//        urlParts.append("");
-
-//    ui->paramsTable->setUrlencoded(urlParts[1]);
-//}

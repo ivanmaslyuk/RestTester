@@ -11,17 +11,20 @@ CONFIG += c++11
 SOURCES += \
     Widgets/endpointdetailwidget.cpp \
     Widgets/paramstable.cpp \
+    Widgets/requestdatainputwidget.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     Widgets/endpointdetailwidget.h \
     Widgets/paramstable.h \
+    Widgets/requestdatainputwidget.h \
     mainwindow.h
 
 FORMS += \
     Widgets/endpointdetailwidget.ui \
     Widgets/paramstable.ui \
+    Widgets/requestdatainputwidget.ui \
     mainwindow.ui
 
 TRANSLATIONS += \

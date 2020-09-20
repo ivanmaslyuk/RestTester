@@ -32,6 +32,8 @@ public:
 
     void setUrlencoded(QString &urlencoded);
     void setData(QList<Param> newData);
+    QString getUrlencoded();
+    QMap<QString, QString> getHeaders();
 
 private:
     Ui::ParamsTable *ui;
@@ -41,13 +43,12 @@ private:
     void keyEdited(int row, QString &newKey);
     void valueEdited(int row, QString &newValue);
     void paramCheckStateChanged(int row, int newCheckState);
-    void sendNewUrlencodedData();
-    void sendNewHeaders();
+    void sendNewData();
     QList<Param> getDisabledParams();
 
 signals:
-    void urlencodedChanged(QString &newValue);
-    void headersChanged(QMap<QString, QString> &newHeaders);
+    void urlencodedChanged(QString newValue);
+    void headersChanged(QMap<QString, QString> newHeaders);
 };
 
 #endif // PARAMSTABLE_H

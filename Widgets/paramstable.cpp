@@ -63,6 +63,37 @@ void ParamsTable::setData(QList<Param> newData)
     appendRow();
 }
 
+QString ParamsTable::getUrlencoded()
+{
+    QString urlencoded;
+    for (auto param: this->data)
+    {
+        if (param.key.isEmpty() && param.value.isEmpty()) continue;
+        if (!param.enabled) continue;
+
+        if (!urlencoded.isEmpty()) {
+            urlencoded += "&";
+        }
+        urlencoded += QUrl::toPercentEncoding(param.key) + "=" + QUrl::toPercentEncoding(param.value);
+    }
+
+    return urlencoded;
+}
+
+QMap<QString, QString> ParamsTable::getHeaders()
+{
+    QMap<QString, QString> headers;
+
+    for (auto param: this->data)
+    {
+        if (!param.enabled) continue;
+
+        headers[param.key] = param.value;
+    }
+
+    return headers;
+}
+
 void ParamsTable::appendRow(QString key, QString value, bool enabled)
 {
     auto insertAt = this->rowCount();
@@ -108,8 +139,7 @@ void ParamsTable::keyEdited(int row, QString &newKey)
     if (row == this->rowCount() - 1) {
         appendRow();
     }
-    sendNewUrlencodedData();
-    sendNewHeaders();
+    sendNewData();
 }
 
 void ParamsTable::valueEdited(int row, QString &newValue)
@@ -118,8 +148,7 @@ void ParamsTable::valueEdited(int row, QString &newValue)
     if (row == this->rowCount() - 1) {
         appendRow();
     }
-    sendNewUrlencodedData();
-    sendNewHeaders();
+    sendNewData();
 }
 
 void ParamsTable::paramCheckStateChanged(int row, int newCheckState)
@@ -137,39 +166,13 @@ void ParamsTable::paramCheckStateChanged(int row, int newCheckState)
         this->data[row].enabled = false;
     }
 
-    sendNewUrlencodedData();
-    sendNewHeaders();
+    sendNewData();
 }
 
-void ParamsTable::sendNewUrlencodedData()
+void ParamsTable::sendNewData()
 {
-    QString urlencoded;
-    for (auto param: this->data)
-    {
-        if (param.key.isEmpty() && param.value.isEmpty()) continue;
-        if (!param.enabled) continue;
-
-        if (!urlencoded.isEmpty()) {
-            urlencoded += "&";
-        }
-        urlencoded += QUrl::toPercentEncoding(param.key) + "=" + QUrl::toPercentEncoding(param.value);
-    }
-
-    emit this->urlencodedChanged(urlencoded);
-}
-
-void ParamsTable::sendNewHeaders()
-{
-    QMap<QString, QString> headers;
-
-    for (auto param: this->data)
-    {
-        if (!param.enabled) continue;
-
-        headers[param.key] = param.value;
-    }
-
-    emit this->headersChanged(headers);
+    emit this->urlencodedChanged(getUrlencoded());
+    emit this->headersChanged(getHeaders());
 }
 
 QList<Param> ParamsTable::getDisabledParams()

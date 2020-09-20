@@ -240,7 +240,7 @@ QTabWidget::pane {
 }</string>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <property name="usesScrollButtons">
          <bool>true</bool>
@@ -301,11 +301,7 @@ QTabWidget::pane {
              <cursorShape>ArrowCursor</cursorShape>
             </property>
             <property name="styleSheet">
-             <string notr="true">QTableWidget {
-    gridline-color: #555;
-    border-top: 1px solid #555;
-    border-left: 1px solid #555;
-}
+             <string notr="true">
 </string>
             </property>
             <property name="verticalScrollBarPolicy">
@@ -380,7 +376,33 @@ QTabWidget::pane {
          <attribute name="title">
           <string>DATA</string>
          </attribute>
-         <layout class="QVBoxLayout" name="verticalLayout_4"/>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="RequestDataInputWidget" name="requestDataWidget" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
         <widget class="QWidget" name="headersTab">
          <attribute name="title">
@@ -481,6 +503,12 @@ QTabWidget::pane {
    <class>ParamsTable</class>
    <extends>QTableWidget</extends>
    <header>Widgets/paramstable.h</header>
+  </customwidget>
+  <customwidget>
+   <class>RequestDataInputWidget</class>
+   <extends>QWidget</extends>
+   <header>Widgets/requestdatainputwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
