@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QElapsedTimer>
 #include "paramstable.h"
 
 namespace Ui {
@@ -47,6 +48,7 @@ public:
 private:
     Ui::EndpointDetailWidget *ui;
     QNetworkAccessManager *networkAccessManager;
+    QElapsedTimer *timer;
 
     void makeRequest();
     void setupMethodComboBox();

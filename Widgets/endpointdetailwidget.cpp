@@ -10,6 +10,11 @@ EndpointDetailWidget::EndpointDetailWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    ui->responseCodeLabel->setText("");
+    ui->responseTimeLabel->setText("");
+    ui->responseSizeLabel->setText("");
+    this->timer = new QElapsedTimer();
+
     this->networkAccessManager = new QNetworkAccessManager(this);
     connect(this->networkAccessManager, &QNetworkAccessManager::finished, this, &EndpointDetailWidget::requestFinished);
 
@@ -61,6 +66,7 @@ void EndpointDetailWidget::makeRequest()
         request.setRawHeader(header.toUtf8(), headers[header].toUtf8());
     }
 
+    timer->start();
     QByteArray data = ui->requestDataWidget->data();
     this->networkAccessManager->sendCustomRequest(request, method.toUtf8(), data);
 }
@@ -86,16 +92,29 @@ void EndpointDetailWidget::makeRequestButtonPressed()
 
 void EndpointDetailWidget::requestFinished(QNetworkReply *reply)
 {
-    ui->makeRequestButton->setDisabled(false);
-    QString text = reply->readAll();
+    QByteArray body = reply->readAll();
 
-    QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString().split(';')[0];
-    if (contentType == "application/json") {
-        QJsonDocument doc = QJsonDocument::fromJson(text.toUtf8());
-        text = doc.toJson(QJsonDocument::Indented);
+    // Calculate approximate size of headers and body
+    qint64 bodySize = body.size();
+    qint64 headersSize = 0;
+    for (auto headerPair: reply->rawHeaderPairs()) {
+        auto header = headerPair.first + ": " + headerPair.second;
+        headersSize += header.size();
     }
 
-    ui->responseText->setPlainText(text);
+    // Prettify response if possible
+    QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString().split(';')[0];
+    if (contentType == "application/json") {
+        QJsonDocument doc = QJsonDocument::fromJson(body);
+        body = doc.toJson(QJsonDocument::Indented);
+    }
+
+    // Update UI
+    ui->makeRequestButton->setDisabled(false);
+    ui->responseText->setPlainText(body);
+    ui->responseCodeLabel->setText(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toString());
+    ui->responseTimeLabel->setText(QString::number(this->timer->elapsed()) + " ms");
+    ui->responseSizeLabel->setText(QString::number(bodySize + headersSize) + " B");
 }
 
 void EndpointDetailWidget::paramsChanged(QString newUrlencoded)

@@ -483,34 +483,154 @@ QTabWidget::pane {
     </widget>
    </item>
    <item>
-    <widget class="QTextEdit" name="responseText">
+    <widget class="QWidget" name="verticalWidget" native="true">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>1</verstretch>
       </sizepolicy>
      </property>
-     <property name="styleSheet">
-      <string notr="true">QTextEdit {
+     <layout class="QVBoxLayout" name="verticalLayout_7">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QWidget" name="widget" native="true">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>16</number>
+         </property>
+         <property name="topMargin">
+          <number>12</number>
+         </property>
+         <property name="rightMargin">
+          <number>16</number>
+         </property>
+         <property name="bottomMargin">
+          <number>12</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="styleSheet">
+            <string notr="true">font-size: 16px;
+color: white;</string>
+           </property>
+           <property name="text">
+            <string>Response</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="responseCodeLabel">
+           <property name="toolTip">
+            <string extracomment="Status Code"/>
+           </property>
+           <property name="whatsThis">
+            <string extracomment="Status Code"/>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">margin-right: 12px;
+color: rgba(255, 255, 255, 0.5);
+font-size: 12px;</string>
+           </property>
+           <property name="text">
+            <string>200</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="responseTimeLabel">
+           <property name="toolTip">
+            <string extracomment="Elapsed Time"/>
+           </property>
+           <property name="whatsThis">
+            <string extracomment="Elapsed Time"/>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">margin-right: 12px;
+color: rgba(255, 255, 255, 0.5);
+font-size: 12px;</string>
+           </property>
+           <property name="text">
+            <string>189 ms</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="responseSizeLabel">
+           <property name="styleSheet">
+            <string notr="true">color: rgba(255, 255, 255, 0.5);
+font-size: 12px;</string>
+           </property>
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QTextEdit" name="responseText">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>1</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QTextEdit {
     color: white;
 	border: none;
 	font-style: monospace;
+	font-size: 12px;
 	margin: 0;
 	padding: 0;
 	background-color: transparent;
 	font-family: &quot;Consolas&quot;;
 }
 </string>
-     </property>
-     <property name="horizontalScrollBarPolicy">
-      <enum>Qt::ScrollBarAsNeeded</enum>
-     </property>
-     <property name="lineWrapMode">
-      <enum>QTextEdit::NoWrap</enum>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
+        </property>
+        <property name="horizontalScrollBarPolicy">
+         <enum>Qt::ScrollBarAsNeeded</enum>
+        </property>
+        <property name="lineWrapMode">
+         <enum>QTextEdit::NoWrap</enum>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>
