@@ -57,7 +57,8 @@ void EndpointDetailWidget::makeRequest()
     request.setHeader(QNetworkRequest::UserAgentHeader, "RestTester/0.1");
 
     QString method = ui->methodComboBox->currentData().toString();
-    if (method != "GET" && method != "OPTIONS" && method != "HEAD") {
+    bool sendData = method != "GET" && method != "OPTIONS" && method != "HEAD";
+    if (sendData) {
         request.setHeader(QNetworkRequest::ContentTypeHeader, ui->requestDataWidget->contentType());
     }
 
@@ -68,7 +69,11 @@ void EndpointDetailWidget::makeRequest()
 
     timer->start();
     QByteArray data = ui->requestDataWidget->data();
-    this->networkAccessManager->sendCustomRequest(request, method.toUtf8(), data);
+    if (sendData) {
+        this->networkAccessManager->sendCustomRequest(request, method.toUtf8(), data);
+    } else {
+        this->networkAccessManager->sendCustomRequest(request, method.toUtf8());
+    }
 }
 
 void EndpointDetailWidget::setupMethodComboBox()
