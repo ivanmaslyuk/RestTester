@@ -154,7 +154,7 @@ color: #777;</string>
        <widget class="QSplitter" name="splitter">
         <property name="styleSheet">
          <string notr="true">QSplitter::handle {
-	background-color: #666;
+	background-color: #555;
 	height: 1px;
 	margin: 0;
 }</string>

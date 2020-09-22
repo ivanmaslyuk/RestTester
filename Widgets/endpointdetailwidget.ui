@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>666</width>
-    <height>407</height>
+    <height>451</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,7 +41,7 @@
       </sizepolicy>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: #444;</string>
+      <string notr="true">background-color: #333;</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_5">
       <property name="spacing">
@@ -90,8 +90,8 @@ color: white;</string>
            <string notr="true">QComboBox {
 	height: 40px;	
 	margin: 0;
-	border-radius: 5px;
-	background-color: #666;
+	border-radius: 4px;
+	background-color: #555;
 	color: white;
 	text-align: center;
 	padding-left: 16px;
@@ -146,10 +146,10 @@ QComboBox QAbstractItemView::item:selected {
           </property>
           <property name="styleSheet">
            <string notr="true">font-size: 16px;
-background-color: #666;
+background-color: #555;
 padding-left: 16px;
 padding-right: 16px;
-border-radius: 5px;
+border-radius: 4px;
 color: white;</string>
           </property>
           <property name="text">
@@ -195,7 +195,7 @@ color: white;</string>
              <string notr="true">QPushButton {
 	background-color: rgb(72, 177, 70);
 	color: white;
-	border-radius: 5px;
+	border-radius: 4px;
 	font-size: 16px;
 	font-weight: bold;
 	font-family: &quot;Roboto&quot;;
@@ -242,12 +242,12 @@ QTabBar::tab:selected {
 }
 
 QTabBar::tab:hover {
-	background: #555;
-	border-bottom: 2px solid #555;
+	background: rgb(61, 61, 61);
+	border-bottom: 2px solid rgb(61, 61, 61);
 }
 
 QTabBar::tab:hover:selected {
-	background: #555;
+	background: rgb(61, 61, 61);
 	border-bottom: 2px solid #48B146;
 }
 
@@ -256,6 +256,9 @@ QTabWidget::pane {
 	background: transparent;
 	border: none;
 }</string>
+        </property>
+        <property name="tabShape">
+         <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
          <number>0</number>
@@ -516,22 +519,56 @@ QTabWidget::pane {
           <number>16</number>
          </property>
          <property name="topMargin">
-          <number>12</number>
+          <number>0</number>
          </property>
          <property name="rightMargin">
           <number>16</number>
          </property>
          <property name="bottomMargin">
-          <number>12</number>
+          <number>0</number>
          </property>
          <item>
           <widget class="QLabel" name="label">
            <property name="styleSheet">
             <string notr="true">font-size: 16px;
-color: white;</string>
+color: white;
+margin-right: 24px;</string>
            </property>
            <property name="text">
             <string>Response</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton">
+           <property name="styleSheet">
+            <string notr="true">height: 43px;
+background: transparent;
+font-size: 14px;
+font-weight: bold;
+color: white;
+border: none;
+border-bottom: 2px solid #48B146;
+padding: 2px 12px 0 12px;</string>
+           </property>
+           <property name="text">
+            <string>BODY</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_2">
+           <property name="styleSheet">
+            <string notr="true">height: 43px;
+background: transparent;
+font-size: 14px;
+font-weight: bold;
+color: rgba(255, 255, 255, 0.5);
+border: none;
+padding: 0 12px;</string>
+           </property>
+           <property name="text">
+            <string>HEADERS</string>
            </property>
           </widget>
          </item>
