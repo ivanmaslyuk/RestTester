@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1000</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -62,10 +62,30 @@ QScrollBar::sub-page, QScrollBar::add-page {
     background: transparent;
 }
 
+
+
 QTableWidget {
     gridline-color: #555;
     border-top: 1px solid #555;
     border-left: 1px solid #555;
+}
+
+
+
+QTextEdit {
+    color: white;
+	border: none;
+	font-style: monospace;
+	font-size: 12px;
+	margin: 0;
+	padding: 0;
+	background-color: transparent;
+	font-family: &quot;Consolas&quot;;
+	selection-background-color: rgba(255, 255, 255, 0.1);
+}
+
+QTextEdit:active {
+	selection-background-color: rgba(255, 255, 255, 0.2);
 }
 
 
