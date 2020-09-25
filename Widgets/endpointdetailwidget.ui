@@ -16,7 +16,7 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_7">
    <property name="spacing">
     <number>0</number>
    </property>
@@ -236,7 +236,7 @@ QPushButton:disabled {
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>150</height>
+           <height>147</height>
           </size>
          </property>
          <property name="baseSize">
@@ -248,12 +248,12 @@ QPushButton:disabled {
          <property name="styleSheet">
           <string notr="true">QTabBar::tab {
 	background: transparent;
-	padding: 0 8px;
+	padding: 0 12px;
 	font-size: 14px;
 	font-family: &quot;Roboto&quot;;
 	font-weight: bold;
 	color: rgba(255,255, 255, 0.5);
-	height: 30px;
+	height: 42px;
 } 
 
 QTabBar::tab:selected {
@@ -325,6 +325,12 @@ QTabWidget::pane {
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>1</width>
+               <height>1</height>
+              </size>
              </property>
              <property name="sizeIncrement">
               <size>
@@ -504,178 +510,202 @@ QTabWidget::pane {
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="verticalWidget" native="true">
+     <widget class="QTabWidget" name="responseTabWidget">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+       <sizepolicy hsizetype="Expanding" vsizetype="Ignored">
         <horstretch>0</horstretch>
         <verstretch>1</verstretch>
        </sizepolicy>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_7">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="QWidget" name="widget" native="true">
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <property name="spacing">
-           <number>0</number>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QTabBar::tab {
+	background: transparent;
+	padding: 0 12px;
+	font-size: 14px;
+	font-family: &quot;Roboto&quot;;
+	font-weight: bold;
+	color: rgba(255,255, 255, 0.5);
+	height: 42px;
+} 
+
+QTabBar::tab:selected {
+	border-bottom: 2px solid #48B146;
+	color: white;
+}
+
+QTabBar::tab:hover {
+	background: rgb(61, 61, 61);
+	border-bottom: 2px solid rgb(61, 61, 61);
+}
+
+QTabBar::tab:hover:selected {
+	background: rgb(61, 61, 61);
+	border-bottom: 2px solid #48B146;
+}
+
+QTabWidget::pane {
+	margin-top: 12px;
+	background: transparent;
+	border: none;
+}</string>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="responseBodyTab">
+       <attribute name="title">
+        <string>BODY</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QTextEdit" name="responseText">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Ignored">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
-          <property name="leftMargin">
-           <number>16</number>
+          <property name="styleSheet">
+           <string notr="true"/>
           </property>
-          <property name="topMargin">
-           <number>0</number>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAsNeeded</enum>
           </property>
-          <property name="rightMargin">
-           <number>16</number>
+          <property name="lineWrapMode">
+           <enum>QTextEdit::NoWrap</enum>
           </property>
-          <property name="bottomMargin">
-           <number>0</number>
+          <property name="readOnly">
+           <bool>true</bool>
           </property>
-          <item>
-           <widget class="QLabel" name="label">
-            <property name="styleSheet">
-             <string notr="true">font-size: 16px;
-color: white;
-margin-right: 24px;</string>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="responseHeadersTab">
+       <attribute name="title">
+        <string>HEADERS</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QScrollArea" name="scrollArea">
+          <property name="styleSheet">
+           <string notr="true">background: transparent;</string>
+          </property>
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollAreaWidgetContents">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>664</width>
+             <height>112</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_8">
+            <property name="leftMargin">
+             <number>16</number>
             </property>
-            <property name="text">
-             <string>Response</string>
+            <property name="topMargin">
+             <number>12</number>
             </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton">
-            <property name="styleSheet">
-             <string notr="true">height: 43px;
-background: transparent;
-font-size: 14px;
-font-weight: bold;
-color: white;
+            <property name="rightMargin">
+             <number>16</number>
+            </property>
+            <property name="bottomMargin">
+             <number>12</number>
+            </property>
+            <item>
+             <widget class="QTableWidget" name="responseHeadersTable">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Ignored">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background: transparent;
 border: none;
-border-bottom: 2px solid #48B146;
-padding: 2px 12px 0 12px;</string>
-            </property>
-            <property name="text">
-             <string>BODY</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_2">
-            <property name="styleSheet">
-             <string notr="true">height: 43px;
-background: transparent;
-font-size: 14px;
-font-weight: bold;
-color: rgba(255, 255, 255, 0.5);
-border: none;
-padding: 0 12px;</string>
-            </property>
-            <property name="text">
-             <string>HEADERS</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QLabel" name="responseCodeLabel">
-            <property name="toolTip">
-             <string extracomment="Status Code"/>
-            </property>
-            <property name="whatsThis">
-             <string extracomment="Status Code"/>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">margin-right: 12px;
-color: rgba(255, 255, 255, 0.5);
-font-size: 12px;</string>
-            </property>
-            <property name="text">
-             <string>200</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="responseTimeLabel">
-            <property name="toolTip">
-             <string extracomment="Elapsed Time"/>
-            </property>
-            <property name="whatsThis">
-             <string extracomment="Elapsed Time"/>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">margin-right: 12px;
-color: rgba(255, 255, 255, 0.5);
-font-size: 12px;</string>
-            </property>
-            <property name="text">
-             <string>189 ms</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="responseSizeLabel">
-            <property name="styleSheet">
-             <string notr="true">color: rgba(255, 255, 255, 0.5);
-font-size: 12px;</string>
-            </property>
-            <property name="text">
-             <string>TextLabel</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QTextEdit" name="responseText">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>1</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="horizontalScrollBarPolicy">
-          <enum>Qt::ScrollBarAsNeeded</enum>
-         </property>
-         <property name="lineWrapMode">
-          <enum>QTextEdit::NoWrap</enum>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
+color: white;</string>
+              </property>
+              <property name="sizeAdjustPolicy">
+               <enum>QAbstractScrollArea::AdjustToContents</enum>
+              </property>
+              <property name="editTriggers">
+               <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="cornerButtonEnabled">
+               <bool>false</bool>
+              </property>
+              <property name="rowCount">
+               <number>1</number>
+              </property>
+              <property name="columnCount">
+               <number>2</number>
+              </property>
+              <attribute name="horizontalHeaderVisible">
+               <bool>false</bool>
+              </attribute>
+              <attribute name="horizontalHeaderStretchLastSection">
+               <bool>true</bool>
+              </attribute>
+              <attribute name="verticalHeaderVisible">
+               <bool>false</bool>
+              </attribute>
+              <row/>
+              <column/>
+              <column/>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </widget>
    </item>

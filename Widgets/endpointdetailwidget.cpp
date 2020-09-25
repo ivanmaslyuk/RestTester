@@ -2,6 +2,7 @@
 #include "ui_endpointdetailwidget.h"
 #include <QJsonDocument>
 #include <QStyledItemDelegate>
+#include <QHBoxLayout>
 
 
 EndpointDetailWidget::EndpointDetailWidget(QWidget *parent) :
@@ -10,9 +11,6 @@ EndpointDetailWidget::EndpointDetailWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->responseCodeLabel->setText("");
-    ui->responseTimeLabel->setText("");
-    ui->responseSizeLabel->setText("");
     this->timer = new QElapsedTimer();
 
     this->networkAccessManager = new QNetworkAccessManager(this);
@@ -25,6 +23,8 @@ EndpointDetailWidget::EndpointDetailWidget(QWidget *parent) :
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &EndpointDetailWidget::tabChanged);
 
     setupMethodComboBox();
+    setupResponseTabWidget();
+    ui->responseHeadersTable->setColumnWidth(0, 200);
 }
 
 EndpointDetailWidget::~EndpointDetailWidget()
@@ -52,6 +52,7 @@ void EndpointDetailWidget::makeRequest()
 {
     ui->makeRequestButton->setDisabled(true);
     ui->responseText->clear();
+    ui->responseHeadersTable->setRowCount(0);
 
     auto request = QNetworkRequest(QUrl(ui->urlInput->text()));
     request.setHeader(QNetworkRequest::UserAgentHeader, "RestTester/0.1");
@@ -90,6 +91,58 @@ void EndpointDetailWidget::setupMethodComboBox()
     ui->methodComboBox->addItem("OPTIONS", "OPTIONS");
 }
 
+void EndpointDetailWidget::setupResponseTabWidget()
+{
+    QLabel *label = new QLabel("Response", this);
+    label->setStyleSheet("font-size: 16px; color: white; height: 42px; margin-right: 24px; margin-left: 16px; padding: 150px 0;");
+    ui->responseTabWidget->setCornerWidget(label, Qt::TopLeftCorner);
+
+    QWidget *responseStatsWidget = new QWidget(this);
+
+    auto layout = new QHBoxLayout(responseStatsWidget);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
+    responseStatsWidget->setLayout(layout);
+
+    this->responseCodeLabel = new QLabel("", responseStatsWidget);
+    this->responseCodeLabel->setStyleSheet("margin-right: 12px; color: rgba(255, 255, 255, 0.5); font-size: 12px;");
+    layout->addWidget(this->responseCodeLabel);
+
+    this->responseTimeLabel = new QLabel("", responseStatsWidget);
+    this->responseTimeLabel->setStyleSheet("margin-right: 12px; color: rgba(255, 255, 255, 0.5); font-size: 12px;");
+    layout->addWidget(this->responseTimeLabel);
+
+    this->responseSizeLabel = new QLabel("", responseStatsWidget);
+    this->responseSizeLabel->setStyleSheet("color: rgba(255, 255, 255, 0.5); font-size: 12px;");
+    layout->addWidget(this->responseSizeLabel);
+
+    responseStatsWidget->setStyleSheet("padding: 150px 0; margin-right: 16px;");
+
+    ui->responseTabWidget->setCornerWidget(responseStatsWidget, Qt::TopRightCorner);
+}
+
+void EndpointDetailWidget::updateResponseHeadersTable(QList<QPair<QByteArray, QByteArray>> headerPairs)
+{
+    // Insert rows
+    for (int i = 0; i < headerPairs.count(); ++i) {
+        ui->responseHeadersTable->insertRow(i);
+
+        auto headerName = new QTableWidgetItem(QString::fromUtf8(headerPairs[i].first));
+        ui->responseHeadersTable->setItem(i, 0, headerName);
+
+        auto headerValue = new QTableWidgetItem(QString::fromUtf8(headerPairs[i].second));
+        ui->responseHeadersTable->setItem(i, 1, headerValue);
+    }
+
+    // Resize table to remove scroll bar
+    ui->responseHeadersTable->resizeRowsToContents();
+    int height = 0;
+    for (int i = 0; i < ui->responseHeadersTable->rowCount(); i++) {
+        height += ui->responseHeadersTable->rowHeight(i);
+    }
+    ui->responseHeadersTable->setMinimumHeight(height);
+}
+
 void EndpointDetailWidget::makeRequestButtonPressed()
 {
     this->makeRequest();
@@ -117,9 +170,10 @@ void EndpointDetailWidget::requestFinished(QNetworkReply *reply)
     // Update UI
     ui->makeRequestButton->setDisabled(false);
     ui->responseText->setPlainText(body);
-    ui->responseCodeLabel->setText(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toString());
-    ui->responseTimeLabel->setText(QString::number(this->timer->elapsed()) + " ms");
-    ui->responseSizeLabel->setText(QString::number(bodySize + headersSize) + " B");
+    this->responseCodeLabel->setText(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toString());
+    this->responseTimeLabel->setText(QString::number(this->timer->elapsed()) + " ms");
+    this->responseSizeLabel->setText(QString::number(bodySize + headersSize) + " B");
+    updateResponseHeadersTable(reply->rawHeaderPairs());
 }
 
 void EndpointDetailWidget::paramsChanged(QString newUrlencoded)

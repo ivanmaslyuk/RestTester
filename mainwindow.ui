@@ -16,6 +16,12 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>600</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>REST Tester</string>
   </property>
@@ -88,6 +94,14 @@ QTextEdit:active {
 	selection-background-color: rgba(255, 255, 255, 0.2);
 }
 
+
+
+
+QSplitter::handle {
+	background-color: #555;
+	height: 1px;
+	margin: 0;
+}
 
 
 </string>
@@ -173,11 +187,7 @@ color: #777;</string>
       <item>
        <widget class="QSplitter" name="splitter">
         <property name="styleSheet">
-         <string notr="true">QSplitter::handle {
-	background-color: #555;
-	height: 1px;
-	margin: 0;
-}</string>
+         <string notr="true"/>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -202,7 +212,7 @@ color: #777;</string>
          </property>
          <property name="minimumSize">
           <size>
-           <width>400</width>
+           <width>500</width>
            <height>0</height>
           </size>
          </property>

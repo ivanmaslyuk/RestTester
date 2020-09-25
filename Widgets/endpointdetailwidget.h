@@ -5,6 +5,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QElapsedTimer>
+#include <QLabel>
 #include "paramstable.h"
 
 namespace Ui {
@@ -49,9 +50,14 @@ private:
     Ui::EndpointDetailWidget *ui;
     QNetworkAccessManager *networkAccessManager;
     QElapsedTimer *timer;
+    QLabel *responseCodeLabel;
+    QLabel *responseTimeLabel;
+    QLabel *responseSizeLabel;
 
     void makeRequest();
     void setupMethodComboBox();
+    void setupResponseTabWidget();
+    void updateResponseHeadersTable(QList<QPair<QByteArray, QByteArray>> headerPairs);
 
 private slots:
     void makeRequestButtonPressed();

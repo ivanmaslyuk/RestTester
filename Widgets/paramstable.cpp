@@ -140,6 +140,7 @@ void ParamsTable::keyEdited(int row, QString &newKey)
         appendRow();
     }
     sendNewData();
+    scrollToBottom();
 }
 
 void ParamsTable::valueEdited(int row, QString &newValue)
@@ -149,6 +150,7 @@ void ParamsTable::valueEdited(int row, QString &newValue)
         appendRow();
     }
     sendNewData();
+    scrollToBottom();
 }
 
 void ParamsTable::paramCheckStateChanged(int row, int newCheckState)
