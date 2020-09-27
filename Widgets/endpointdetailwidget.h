@@ -15,7 +15,7 @@ class EndpointDetailWidget;
 struct RequestData {
     RequestData(QString url, QString method, QString displayName, QList<Param> queryParams,
                 QList<Param> dataParams, QList<Param> headers, QString rawData,
-                QString contentType) {
+                QString contentType, QString documentation) {
         this->url = url;
         this->queryParams = queryParams;
         this->dataParams = dataParams;
@@ -24,6 +24,7 @@ struct RequestData {
         this->method = method;
         this->displayName = displayName;
         this->contentType = contentType;
+        this->documentation = documentation;
     }
 
     QString url;
@@ -34,6 +35,7 @@ struct RequestData {
     QString method;
     QString displayName;
     QString contentType;
+    QString documentation;
 };
 
 class EndpointDetailWidget : public QWidget
@@ -65,6 +67,7 @@ private slots:
     void paramsChanged(QString newUrlencoded);
     void urlEdited(const QString &newUrl);
     void tabChanged(int index);
+    void documentationButtonPressed();
 };
 
 #endif // ENDPOINTDETAILWIDGET_H

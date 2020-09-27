@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
+    <width>1200</width>
     <height>800</height>
    </rect>
   </property>
@@ -212,7 +212,7 @@ color: #777;</string>
          </property>
          <property name="minimumSize">
           <size>
-           <width>500</width>
+           <width>700</width>
            <height>0</height>
           </size>
          </property>

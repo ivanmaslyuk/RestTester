@@ -4,7 +4,6 @@
 #include <QtNetwork/QNetworkRequest>
 #include <QUrl>
 #include <QJsonDocument>
-#include <QDomDocument>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 #include "Widgets/paramstable.h"
@@ -28,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     headers << Param("henabled", "hvalue1") << Param("hdisabled", "h", false);
     QString rawData = "{\"key\": 482938473}";
     QString contentType = "application/json";
+    QString docs = "# Echo endpoint by Postman\n[Docs on website](https://docs.postman-echo.com/)";
     ui->endpoint->setRequestData(RequestData(
                                      url,
                                      method,
@@ -36,7 +36,8 @@ MainWindow::MainWindow(QWidget *parent)
                                      dataParams,
                                      headers,
                                      rawData,
-                                     contentType));
+                                     contentType,
+                                     docs));
 }
 
 MainWindow::~MainWindow()

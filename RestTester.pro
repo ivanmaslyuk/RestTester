@@ -1,4 +1,4 @@
-QT       += core gui network xml
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -9,6 +9,8 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Utils/markdownhtmlconverter.cpp \
+    Widgets/documentationwidget.cpp \
     Widgets/endpointdetailwidget.cpp \
     Widgets/paramstable.cpp \
     Widgets/requestdatainputwidget.cpp \
@@ -16,12 +18,15 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    Utils/markdownhtmlconverter.h \
+    Widgets/documentationwidget.h \
     Widgets/endpointdetailwidget.h \
     Widgets/paramstable.h \
     Widgets/requestdatainputwidget.h \
     mainwindow.h
 
 FORMS += \
+    Widgets/documentationwidget.ui \
     Widgets/endpointdetailwidget.ui \
     Widgets/paramstable.ui \
     Widgets/requestdatainputwidget.ui \

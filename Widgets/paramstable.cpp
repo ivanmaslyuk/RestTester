@@ -5,6 +5,7 @@
 #include <QCheckBox>
 #include <QWidget>
 #include <QDebug>
+#include <QUrl>
 
 ParamsTable::ParamsTable(QWidget *parent) :
     QTableWidget(parent),

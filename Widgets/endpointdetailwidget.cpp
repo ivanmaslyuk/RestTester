@@ -21,10 +21,13 @@ EndpointDetailWidget::EndpointDetailWidget(QWidget *parent) :
     connect(ui->paramsTable, &ParamsTable::urlencodedChanged, this, &EndpointDetailWidget::paramsChanged);
     connect(ui->urlInput, &QLineEdit::textEdited, this, &EndpointDetailWidget::urlEdited);
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &EndpointDetailWidget::tabChanged);
+    connect(ui->documentationButton, &QPushButton::clicked, this, &EndpointDetailWidget::documentationButtonPressed);
 
     setupMethodComboBox();
     setupResponseTabWidget();
     ui->responseHeadersTable->setColumnWidth(0, 200);
+
+    ui->documentationSheet->hide();
 }
 
 EndpointDetailWidget::~EndpointDetailWidget()
@@ -41,6 +44,7 @@ void EndpointDetailWidget::setRequestData(RequestData data)
     ui->requestDataWidget->setRawData(data.rawData);
     ui->urlInput->setText(data.url);
     ui->requestDataWidget->setContentType(data.contentType);
+    ui->documentationSheet->setContent(data.documentation);
 
     int methodIndex = ui->methodComboBox->findData(data.method);
     if (methodIndex != -1) {
@@ -205,4 +209,15 @@ void EndpointDetailWidget::tabChanged(int index)
     ui->tabWidget->widget(index)->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     ui->tabWidget->widget(index)->resize(ui->tabWidget->widget(index)->minimumSizeHint());
     ui->tabWidget->widget(index)->adjustSize();
+}
+
+void EndpointDetailWidget::documentationButtonPressed()
+{
+    if (ui->documentationSheet->isHidden()) {
+        ui->documentationSheet->show();
+        ui->documentationButton->setText("Hide docs");
+    } else {
+        ui->documentationSheet->hide();
+        ui->documentationButton->setText("Docs");
+    }
 }
