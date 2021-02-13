@@ -13,6 +13,7 @@ DocumentationWidget::DocumentationWidget(QWidget *parent) :
     ui->rawText->hide();
 
     connect(ui->editButton, &QPushButton::clicked, this, &DocumentationWidget::editButtonPressed);
+    ui->preview->setFocusPolicy(Qt::NoFocus);
 }
 
 DocumentationWidget::~DocumentationWidget()
@@ -38,6 +39,10 @@ void DocumentationWidget::hide()
 void DocumentationWidget::updateContent()
 {
     ui->rawText->setText(this->content);
+
+//    QTextDocument *document = new QTextDocument(this);
+//    document->setMarkdown(this->content);
+//    ui->preview->setDocument(document);
     ui->preview->setHtml(MarkdownHtmlConverter::convert(this->content));
 }
 
@@ -69,7 +74,6 @@ void DocumentationWidget::editButtonPressed()
         showPreview();
         emit contentEdited(this->content);
     } else {
-        updateContent();
         showEditor();
     }
 }

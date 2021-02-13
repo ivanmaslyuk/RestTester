@@ -635,7 +635,7 @@ QTabWidget::pane {
           <number>0</number>
          </property>
          <item>
-          <widget class="QTextEdit" name="responseText">
+          <widget class="QPlainTextEdit" name="responseText">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Ignored">
              <horstretch>0</horstretch>
@@ -645,14 +645,14 @@ QTabWidget::pane {
            <property name="styleSheet">
             <string notr="true"/>
            </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAsNeeded</enum>
+           </property>
            <property name="horizontalScrollBarPolicy">
             <enum>Qt::ScrollBarAsNeeded</enum>
            </property>
            <property name="lineWrapMode">
-            <enum>QTextEdit::NoWrap</enum>
-           </property>
-           <property name="readOnly">
-            <bool>true</bool>
+            <enum>QPlainTextEdit::NoWrap</enum>
            </property>
           </widget>
          </item>
@@ -711,7 +711,7 @@ QTabWidget::pane {
              <item>
               <widget class="QTableWidget" name="responseHeadersTable">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Ignored">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -724,7 +724,6 @@ QTabWidget::pane {
                </property>
                <property name="styleSheet">
                 <string notr="true">background: transparent;
-border: none;
 color: white;</string>
                </property>
                <property name="sizeAdjustPolicy">
@@ -733,11 +732,14 @@ color: white;</string>
                <property name="editTriggers">
                 <set>QAbstractItemView::NoEditTriggers</set>
                </property>
+               <property name="selectionMode">
+                <enum>QAbstractItemView::NoSelection</enum>
+               </property>
                <property name="cornerButtonEnabled">
                 <bool>false</bool>
                </property>
                <property name="rowCount">
-                <number>1</number>
+                <number>0</number>
                </property>
                <property name="columnCount">
                 <number>2</number>
@@ -751,10 +753,22 @@ color: white;</string>
                <attribute name="verticalHeaderVisible">
                 <bool>false</bool>
                </attribute>
-               <row/>
                <column/>
                <column/>
               </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>0</height>
+                </size>
+               </property>
+              </spacer>
              </item>
             </layout>
            </widget>

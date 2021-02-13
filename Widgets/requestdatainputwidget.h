@@ -2,7 +2,7 @@
 #define REQUESTDATAINPUTWIDGET_H
 
 #include <QWidget>
-#include "paramstable.h"
+#include "Models/parammodel.h"
 
 namespace Ui {
 class RequestDataInputWidget;
@@ -18,7 +18,7 @@ public:
 
     QString contentType();
     QByteArray data();
-    void setParams(QList<Param> params);
+    void setParams(QList<ParamModel> params);
     void setRawData(QString data);
     void setContentType(QString type);
 

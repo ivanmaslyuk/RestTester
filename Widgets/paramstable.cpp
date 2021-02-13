@@ -34,7 +34,7 @@ ParamsTable::~ParamsTable()
 
 void ParamsTable::setUrlencoded(QString &urlencoded)
 {
-    QList<Param> newData;
+    QList<ParamModel> newData;
     QStringList params = urlencoded.split('&');
 
     for (auto param: params)
@@ -46,14 +46,14 @@ void ParamsTable::setUrlencoded(QString &urlencoded)
 
         QString key = QUrl::fromPercentEncoding(keyAndValue[0].toUtf8());
         QString value = QUrl::fromPercentEncoding(keyAndValue[1].toUtf8());
-        newData.append(Param(key, value));
+        newData.append(ParamModel(key, value));
     }
 
     newData.append(getDisabledParams());
     setData(newData);
 }
 
-void ParamsTable::setData(QList<Param> newData)
+void ParamsTable::setData(QList<ParamModel> newData)
 {
     this->data.clear();
     setRowCount(0);
@@ -127,7 +127,7 @@ void ParamsTable::appendRow(QString key, QString value, bool enabled)
 
     this->setRowHeight(insertAt, 30);
 
-    this->data.append(Param(key, value, enabled));
+    this->data.append(ParamModel(key, value, enabled));
 
     connect(checkBox, &QCheckBox::stateChanged, [=](int newState){paramCheckStateChanged(insertAt, newState);});
     connect(keyInput, &QLineEdit::textEdited, [=](QString newValue){keyEdited(insertAt, newValue);});
@@ -178,9 +178,9 @@ void ParamsTable::sendNewData()
     emit this->headersChanged(getHeaders());
 }
 
-QList<Param> ParamsTable::getDisabledParams()
+QList<ParamModel> ParamsTable::getDisabledParams()
 {
-    QList<Param> result;
+    QList<ParamModel> result;
 
     for (auto param: this->data) {
         if (!param.enabled) {

@@ -4,6 +4,9 @@
 #include <QFontDatabase>
 #include <QStyleFactory>
 #include <QFile>
+#include <QDebug>
+
+#include "serverapi.h"
 
 int main(int argc, char *argv[])
 {
@@ -23,6 +26,14 @@ int main(int argc, char *argv[])
     QFile styleSheetFile(":/styles/global.css");
     styleSheetFile.open(QFile::ReadOnly);
     a.setStyleSheet(QString::fromUtf8(styleSheetFile.readAll()));
+
+    ServerAPI api;
+    try {
+        auto apis = api.getApisListForCurrentUser();
+    }
+    catch (const QString &error) {
+        qDebug() << error;
+    }
 
     MainWindow w;
     w.show();

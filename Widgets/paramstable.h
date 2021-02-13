@@ -3,24 +3,11 @@
 
 #include <QTableWidget>
 #include <QList>
+#include "Models/parammodel.h"
 
 namespace Ui {
 class ParamsTable;
 }
-
-struct Param
-{
-    Param(QString key, QString value, bool enabled = true)
-    {
-        this->key = key;
-        this->value = value;
-        this->enabled = enabled;
-    }
-
-    bool enabled;
-    QString key;
-    QString value;
-};
 
 class ParamsTable : public QTableWidget
 {
@@ -31,20 +18,20 @@ public:
     ~ParamsTable();
 
     void setUrlencoded(QString &urlencoded);
-    void setData(QList<Param> newData);
+    void setData(QList<ParamModel> newData);
     QString getUrlencoded();
     QMap<QString, QString> getHeaders();
 
 private:
     Ui::ParamsTable *ui;
-    QList<Param> data;
+    QList<ParamModel> data;
 
     void appendRow(QString key = "", QString value = "", bool enabled = true);
     void keyEdited(int row, QString &newKey);
     void valueEdited(int row, QString &newValue);
     void paramCheckStateChanged(int row, int newCheckState);
     void sendNewData();
-    QList<Param> getDisabledParams();
+    QList<ParamModel> getDisabledParams();
 
 signals:
     void urlencodedChanged(QString newValue);

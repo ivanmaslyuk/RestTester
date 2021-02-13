@@ -38,7 +38,7 @@ QByteArray RequestDataInputWidget::data()
     return ui->textEdit->toPlainText().toUtf8();
 }
 
-void RequestDataInputWidget::setParams(QList<Param> params)
+void RequestDataInputWidget::setParams(QList<ParamModel> params)
 {
     ui->tableWidget->setData(params);
 }

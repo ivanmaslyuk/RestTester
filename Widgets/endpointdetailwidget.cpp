@@ -35,7 +35,7 @@ EndpointDetailWidget::~EndpointDetailWidget()
     delete ui;
 }
 
-void EndpointDetailWidget::setRequestData(RequestData data)
+void EndpointDetailWidget::setRequestData(RequestModel data)
 {
     ui->paramsTable->setData(data.queryParams);
     ui->endpointTitle->setText(data.displayName);
@@ -144,7 +144,8 @@ void EndpointDetailWidget::updateResponseHeadersTable(QList<QPair<QByteArray, QB
     for (int i = 0; i < ui->responseHeadersTable->rowCount(); i++) {
         height += ui->responseHeadersTable->rowHeight(i);
     }
-    ui->responseHeadersTable->setMinimumHeight(height);
+    height += 1;
+    ui->responseHeadersTable->setMaximumHeight(height);
 }
 
 void EndpointDetailWidget::makeRequestButtonPressed()

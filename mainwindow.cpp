@@ -1,12 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "QDebug"
-#include <QtNetwork/QNetworkRequest>
-#include <QUrl>
-#include <QJsonDocument>
-#include <QXmlStreamReader>
-#include <QXmlStreamWriter>
-#include "Widgets/paramstable.h"
+#include <QAction>
+#include "Models/parammodel.h"
+#include "Models/requestmodel.h"
+#include "Delegates/requestlistdelegate.h"
+#include "TreeModel/treemodel.h"
+#include <QTreeWidget>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,28 +16,34 @@ MainWindow::MainWindow(QWidget *parent)
     ui->titleBar->hide();
 
     // Example request
-    QString url = "http://postman-echo.com/post?qenabled=qvalue1";
-    QString method = "POST";
-    QString displayName = "Postman Echo";
-    QList<Param> queryParams;
-    queryParams << Param("qenabled", "qvalue1") << Param("qdisabled", "q", false);
-    QList<Param> dataParams;
-    dataParams << Param("denabled", "dvalue1") << Param("ddisabled", "d", false);
-    QList<Param> headers;
-    headers << Param("henabled", "hvalue1") << Param("hdisabled", "h", false);
-    QString rawData = "{\"key\": 482938473}";
-    QString contentType = "application/json";
-    QString docs = "# Echo endpoint by Postman\n[Docs on website](https://docs.postman-echo.com/)";
-    ui->endpoint->setRequestData(RequestData(
-                                     url,
-                                     method,
-                                     displayName,
-                                     queryParams,
-                                     dataParams,
-                                     headers,
-                                     rawData,
-                                     contentType,
-                                     docs));
+    auto request = RequestModel();
+    ui->endpoint->setRequestData(request);
+
+    ui->treeView->setHeaderHidden(true);
+
+    TreeModel *treeModel = new TreeModel(ui->treeView);
+    ui->treeView->setModel(treeModel);
+
+    ui->treeView->setExpandsOnDoubleClick(false);
+
+    ui->treeView->setStyleSheet("QTreeView::branch {  border-image: url(none.png); }");
+
+    auto requestListDelegate = new RequestListDelegate(ui->treeView);
+    ui->treeView->setItemDelegate(requestListDelegate);
+    connect(ui->treeView, &QTreeView::pressed, [=](QModelIndex index){
+        TreeItem *treeItem = static_cast<TreeItem *>(index.internalPointer());
+        RequestModel request = treeItem->data().value<RequestModel>();
+
+        if (!request.method.isEmpty())
+            ui->endpoint->setRequestData(request);
+
+        if (ui->treeView->isExpanded(index))
+            ui->treeView->collapse(index);
+        else
+            ui->treeView->expand(index);
+    });
+
+
 }
 
 MainWindow::~MainWindow()

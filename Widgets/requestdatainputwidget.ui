@@ -99,7 +99,7 @@ font-size: 14px;</string>
     </widget>
    </item>
    <item>
-    <widget class="QTextEdit" name="textEdit">
+    <widget class="QPlainTextEdit" name="textEdit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
        <horstretch>0</horstretch>
@@ -128,9 +128,6 @@ font-size: 14px;</string>
       <string notr="true">background: #222;
 color: white;
 border-radius: 4px;</string>
-     </property>
-     <property name="placeholderText">
-      <string>Enter data here</string>
      </property>
     </widget>
    </item>
