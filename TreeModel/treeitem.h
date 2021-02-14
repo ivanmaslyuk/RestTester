@@ -9,14 +9,18 @@ public:
     explicit TreeItem(const QVariant &data, TreeItem *parentItem = nullptr);
     ~TreeItem();
 
-    void appendChild(TreeItem *child);
+//    void appendChild(TreeItem *child);
 
     TreeItem *child(int row);
     int childCount() const;
     int columnCount() const;
     QVariant data() const;
-    int row() const;
+    bool insertChildren(int position, int count);
     TreeItem *parentItem();
+    bool removeChildren(int position, int count);
+    int childNumber() const;
+    bool setData(const QVariant &value);
+
 
 private:
     QVector<TreeItem*> m_childItems;
