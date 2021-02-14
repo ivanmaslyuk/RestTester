@@ -75,12 +75,6 @@ bool TreeModel::removeRows(int position, int rows, const QModelIndex &parent)
     return success;
 }
 
-//QVariant TreeModel::headerData(int section, Qt::Orientation orientation, int role) const
-//{
-//    // TODO: можно не переопределять этот метод
-//    return QVariant();
-//}
-
 QModelIndex TreeModel::index(int row, int column, const QModelIndex &parent) const
 {
     if (!hasIndex(row, column, parent))
