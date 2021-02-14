@@ -9,11 +9,6 @@ TreeItem::~TreeItem()
     qDeleteAll(m_childItems);
 }
 
-//void TreeItem::appendChild(TreeItem *child)
-//{
-//    m_childItems.append(child);
-//}
-
 TreeItem *TreeItem::child(int row)
 {
     if (row < 0 || row >= m_childItems.size())

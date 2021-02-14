@@ -9,8 +9,6 @@ public:
     explicit TreeItem(const QVariant &data, TreeItem *parentItem = nullptr);
     ~TreeItem();
 
-//    void appendChild(TreeItem *child);
-
     TreeItem *child(int row);
     int childCount() const;
     int columnCount() const;
